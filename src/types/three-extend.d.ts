@@ -2,7 +2,7 @@ declare module 'three/examples/jsm/loaders/OBJLoader' {
     import { Loader } from 'three';
     import { Object3D } from 'three';
     export class OBJLoader extends Loader {
-        [x: string]: any;
+        [x: string];
         constructor();
         load(
             url: string,
@@ -31,7 +31,6 @@ declare module 'three/examples/jsm/controls/OrbitControls' {
     import { MOUSE } from 'three';
     import { TOUCH } from 'three';
     import { Vector3 } from 'three';
-    import { WebGLRenderer } from 'three';
 
     export class OrbitControls extends EventDispatcher {
         constructor(object: Camera, domElement?: HTMLElement);

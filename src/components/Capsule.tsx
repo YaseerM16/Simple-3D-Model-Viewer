@@ -11,6 +11,8 @@ const Capsule = () => {
     const [metadata, setMetadata] = useState<string[]>([]);
 
     useEffect(() => {
+        const mount = mountRef.current; // ✅ Cache the ref at the top
+
         const scene = new THREE.Scene();
         scene.background = new THREE.Color('#ffffff'); // white
         const ambientLight = new THREE.AmbientLight(0xffffff, 1);
@@ -43,11 +45,6 @@ const Capsule = () => {
             objLoader.setMaterials(materials);
             objLoader.setPath('/capsule_model/');
             objLoader.load('capsule.obj', (obj) => {
-                const meshCount = obj.children.length;
-                let totalVertices = 0;
-                let totalFaces = 0;
-                const infoLines: string[] = [];
-
                 obj.traverse((child: unknown) => {
                     if ((child as THREE.Mesh).isMesh) {
                         const mesh = child as THREE.Mesh;
@@ -114,7 +111,9 @@ const Capsule = () => {
         animate();
 
         return () => {
-            mountRef.current?.removeChild(renderer.domElement);
+            if (mount && renderer.domElement.parentNode === mount) {
+                mount.removeChild(renderer.domElement); // ✅ Use cached `mount` in cleanup
+            }
         };
     }, []);
     return (
